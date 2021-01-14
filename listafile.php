@@ -32,7 +32,13 @@ function getDirContents($dir, &$results = array())
     return $results;
 }
 
-$immagini = getDirContents('c:\progetti\siti_laravel\igea');
+$percorso_default = 'c:\progetti\siti_laravel\igea';
+$percorso = readline("Inserire il percorso completo di ricerca (vuoto = $percorso_default): ");
+if(empty($percorso)) {
+    $percorso = $percorso_default;
+}
+
+$immagini = getDirContents($percorso);
 $contatore = 0; 
 foreach($immagini as $i) {
     $contatore++;
