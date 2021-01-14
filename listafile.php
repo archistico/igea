@@ -2,7 +2,7 @@
 
 function checkExtension($ext)
 {
-    return in_array($ext, ['jpg', 'png']);
+    return in_array($ext, ['jpg', 'png', 'tga', 'tiff', 'psd', 'pdf', 'jpeg', 'webp']);
 }
 
 function getDirContents($dir, &$results = array())
@@ -32,11 +32,11 @@ function getDirContents($dir, &$results = array())
     return $results;
 }
 
-$immagini = getDirContents('/home/archemi/igea');
+$immagini = getDirContents('c:\progetti\siti_laravel\igea');
 $contatore = 0; 
 foreach($immagini as $i) {
     $contatore++;
-    echo $contatore." FILE: ".$i['dirname']."".$i['basename']." MD5: ".$i['md5']." SIZE: ".$i['size']. "\n";
+    echo $contatore." FILE: ".$i['dirname'].DIRECTORY_SEPARATOR.$i['basename']." MD5: ".$i['md5']." SIZE: ".$i['size']. "\n";
 }
 
 /*
