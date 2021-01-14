@@ -46,11 +46,6 @@ function inserisciDB($lista_immagini, $db)
         $contatore++;
         echo $contatore . " FILE: " . $i['dirname'] . DIRECTORY_SEPARATOR . $i['basename'] . " MD5: " . $i['md5'] . " SIZE: " . $i['size'] . "\n";
 
-        // CONTROLLA SE IL FILE é GIA' STATO INSERITO NEL DB
-        
-        
-        // INSERISCI IL FILE NEL DB
-
         $query = "INSERT INTO files (id, dirname, basename, filename, extension, md5, size) VALUES (null, :dirname, :basename, :filename, :extension, :md5, :size);";
 
         $stmt = $db->prepare($query);
