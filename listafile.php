@@ -17,6 +17,10 @@ function getDirContents($dir, &$results = array())
         if (!is_dir($path)) {
             $path_parts = pathinfo($path);
             if (isset($path_parts['extension']) && checkExtension($path_parts['extension'])) {
+
+                // $exif_exif = exif_read_data($path ,'EXIF' ,0);
+                // var_dump($exif_exif);
+
                 $results[] = [
                     'dirname' => $path_parts['dirname'],
                     'basename' => $path_parts['basename'],
@@ -41,7 +45,12 @@ function inserisciDB($lista_immagini, $db)
     foreach ($lista_immagini as $i) {
         $contatore++;
         echo $contatore . " FILE: " . $i['dirname'] . DIRECTORY_SEPARATOR . $i['basename'] . " MD5: " . $i['md5'] . " SIZE: " . $i['size'] . "\n";
+
+        // CONTROLLA SE IL FILE é GIA' STATO INSERITO NEL DB
         
+        
+        // INSERISCI IL FILE NEL DB
+
         $query = "INSERT INTO files (id, dirname, basename, filename, extension, md5, size) VALUES (null, :dirname, :basename, :filename, :extension, :md5, :size);";
 
         $stmt = $db->prepare($query);
@@ -61,7 +70,14 @@ if (empty($percorso)) {
     $percorso = $percorso_default;
 }
 
+
+
 $database_name = "database.db";
+
+if (file_exists($database_name)) {
+    unlink($database_name);
+}
+
 $db = new PDO('sqlite:' . $database_name);
 $query = "CREATE TABLE IF NOT EXISTS files (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, dirname TEXT, basename TEXT, filename TEXT, extension TEXT, md5 TEXT, size INTEGER)";
 $db->exec($query);
