@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 function checkExtension($ext)
 {
-    return in_array($ext, ['jpg', 'png', 'tga', 'tiff', 'psd', 'pdf', 'jpeg', 'webp']);
+    return in_array(strtolower($ext), ['jpg', 'png', 'tga', 'tiff', 'psd', 'pdf', 'jpeg', 'webp', 'mp4', 'crw', 'cr2', 'arw']);
 }
 
 function getDirContents($dir, &$results = array())
@@ -17,9 +17,6 @@ function getDirContents($dir, &$results = array())
         if (!is_dir($path)) {
             $path_parts = pathinfo($path);
             if (isset($path_parts['extension']) && checkExtension($path_parts['extension'])) {
-
-                // $exif_exif = exif_read_data($path ,'EXIF' ,0);
-                // var_dump($exif_exif);
 
                 $results[] = [
                     'dirname' => $path_parts['dirname'],
@@ -59,7 +56,7 @@ function inserisciDB($lista_immagini, $db)
     }
 }
 
-$percorso_default = 'c:\progetti\siti_laravel\igea';
+$percorso_default = getcwd();
 $percorso = readline("Inserire il percorso completo di ricerca (vuoto = $percorso_default): ");
 if (empty($percorso)) {
     $percorso = $percorso_default;
@@ -79,3 +76,15 @@ $db->exec($query);
 
 $immagini = getDirContents($percorso);
 inserisciDB($immagini, $db);
+
+
+// select dirname, basename, size, md5 from files group by md5 having count(md5) > 1 order by size desc, md5 asc;
+
+/*
+
+select * from files where md5 in (
+    select md5 from files
+    group by md5 having count(md5) > 1
+) order by md5 asc;
+
+*/
