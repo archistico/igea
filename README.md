@@ -1,0 +1,1 @@
+add php.ini extenstion=php_sqlite3.dll
