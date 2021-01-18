@@ -17,6 +17,7 @@ $query = $conn->prepare($sql);
 // $estensione = "jpg";
 // $query->bindParam(':estensione', $estensione);
 $query->execute();
+$dircurrent = getcwd();
 
 ?>
 
@@ -37,15 +38,24 @@ $query->execute();
 <body>
     <h1>RIMOZIONE DOPPIONI</h1>
 
-    <ul>
+    <table>
         <?php 
         while($fetch = $query->fetch()) {
+            $nomefile = $fetch['dirname']. DIRECTORY_SEPARATOR .$fetch['basename'];
+            $imgfile = str_replace($dircurrent, '', $nomefile);
+            $imgfile = str_replace('\\','/', $imgfile);
+
+            $md5 = $fetch['md5'];
         ?>
-        <li><?= $fetch['dirname']. DIRECTORY_SEPARATOR .$fetch['basename']; ?></li>
+        <tr>
+        <td><img src="<?= $imgfile; ?>" style="width: 100px; border: 1px solid black;"></td>
+        <td><?= $nomefile; ?></td>
+        <td><?= $md5; ?></td>
+        </tr>
         <?php 
         }
         ?>
-    </ul>
+    </table>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
